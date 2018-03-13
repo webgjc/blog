@@ -45,8 +45,8 @@ def classList(req):
 
 #主程序，设置学号密码并运行
 if __name__=='__main__':
-    xh='15041515'
-    psd='Hdu1253339'
+    xh='xxx'
+    psd='xxx'
     lt=getHduCookie()
     tmpurl=simLogin(lt)
     if tmpurl[0:4]=="http":
