@@ -1,0 +1,12 @@
+/**index.wxss**/
+.btn{
+  margin-top: 10%;
+}
+.section{
+  border-bottom:solid 1px lightgrey;
+}
+input{
+  height: 3rem;
+  font-size: 1.5rem;
+}
+
