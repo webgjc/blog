@@ -8,4 +8,4 @@
 
 ## 运行
 
->python gradient
+>python gradient.py
