@@ -6,6 +6,7 @@ Page({
     imgult:'',
     imgfile:''
   },
+  //图片预览
   ch:function(e){
     var that=this
     if(that.data.imgfile==''){
@@ -16,6 +17,8 @@ Page({
       urls: [that.data.imgfile] 
     })
   },
+  //发送请求
+  //成功后把图片下载到本地
   formSubmit: function(e) {
     var that = this
     wx.request({
