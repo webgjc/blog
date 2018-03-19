@@ -1,5 +1,7 @@
 # dlib人脸识别+svm分类
 
+## 原文链接: https://ganjiacheng.cn/blog/?p=287
+
 ## 所需库 cv2，dlib，numpy，sklearn，PIL
 
 ## 使用方法：
