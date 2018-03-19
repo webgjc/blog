@@ -1,0 +1,62 @@
+/* pages/buycar/index.wxss */
+.container{
+    margin: 0px;
+    padding: 0px;
+}
+.img{
+    height: 150rpx;
+    width: 150rpx;
+    margin:20rpx;
+}
+.name{
+    position: absolute;
+    top: 40rpx;
+}
+.num{
+    position: absolute;
+    top:110rpx;
+    left:190rpx;
+    border-bottom: solid 1px #ccc;
+    padding: 5rpx;
+}
+.main{
+    width: 100%;
+}
+.item{
+    position: relative;
+    width: 100%;
+    border-bottom: solid 1px #ccc;
+}
+.sel{
+    position: fixed;
+    width: 100%;
+    bottom: 150rpx;
+    background-color: #fff;
+    text-align: center;
+}
+.chbox{
+    position: absolute;
+    right: 50rpx;
+    top:80rpx;
+}
+.allprice{
+    position: fixed;
+    height: 150rpx;
+    width: 100%;
+    bottom: 0px;
+    background-color: red;
+}
+.btn{
+    width: 20%;
+    float: right;
+    margin-top: 3%;
+    margin-right: 5%;
+}
+.zj{
+    color: #fff;
+    display: inline-block;
+    margin: 7%;
+}
+checkbox-group{
+    padding-bottom:200rpx;
+}

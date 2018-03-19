@@ -1,0 +1,77 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="lb">
+    <swiper indicator-dots="true"
+  autoplay="true" interval="4000" duration="1000" class="lbt">
+      <block wx:for="{{imgUrls}}" wx:key="imgUrls">
+        <navigator url="/pages/specinfo/index?id={{item[1]}}">
+          <swiper-item>
+            <image src="{{item[0]}}" class="slide-image"/>
+          </swiper-item>
+        </navigator>
+      </block>
+    </swiper>
+  </view>
+  <view class="tubiao">
+    <navigator url="/pages/index/index" hover-class="none" class="tb1">
+      <image src="https://ganjiacheng.cn/images/main.png" width="10"/>
+      <view>主页</view>
+    </navigator>
+    <navigator url="/pages/buycar/index?uid={{uid}}" hover-class="none" class="tb2">
+      <image src="https://ganjiacheng.cn/images/buy.png"/>
+      <view>购物车</view>
+    </navigator>
+    <navigator url="/pages/myorder/index?uid={{uid}}" hover-class="none" class="tb3">
+      <image src="https://ganjiacheng.cn/images/list.png"/>
+      <view>我的订单</view>
+    </navigator>
+    <navigator url="/pages/myinfo/index?uid={{uid}}" hover-class="none" class="tb4">
+    <image src="https://ganjiacheng.cn/images/user.png"/>
+      <view>个人信息</view>
+    </navigator>
+  </view>
+  <view class="recom">
+    <navigator url="/pages/specinfo/index?id={{tj[1][0]}}" hover-class="none">
+      <view class="tjbox">
+        <view class="tjtext">今日特价</view>
+          <image src="{{tj[1][1]}}" class="tm"/>
+        <view class="tjprice">¥{{tjprice[0]}}/个</view>
+      </view>
+    </navigator>
+    <navigator url="/pages/specinfo/index?id={{tj[2][0]}}" hover-class="none">
+      <view class="tjbox1">
+        <view class="tj1text">优惠</view>
+          <image src="{{tj[2][1]}}" class="tj1"/>
+        <view class="yhprice">¥{{tjprice[1]}}/个</view>
+      </view>
+    </navigator>
+    <navigator url="/pages/specinfo/index?id={{tj[3][0]}}" hover-class="none">
+      <view class="tjbox2">
+        <view>打折</view>
+          <image src="{{tj[3][1]}}" class="tj2"/>
+        <view class="yhprice">¥{{tjprice[2]}}/个</view>
+      </view>
+    </navigator>
+  </view>
+  <view class="all-text"><view class="txt">全部食品</view></view>
+  <view class="all">
+    <view class="main">
+      <navigator url="/pages/specinfo/index?id={{item[0]}}" wx:for="{{main1}}" wx:key="main">
+        <view class="main-item">
+          <image src="{{item[2]}}" class="main-img"/>
+          <view class="name">{{item[1]}}</view>
+          <view class="price">¥{{item[3]}}</view>
+        </view>
+      </navigator>
+    </view>
+    <view class="main1">
+      <navigator url="/pages/specinfo/index?id={{item[0]}}" wx:for="{{main2}}" wx:key="main">
+        <view class="main-item">
+          <image src="{{item[2]}}" class="main-img"/>
+          <view class="name">{{item[1]}}</view>
+          <view class="price">¥{{item[3]}}</view>
+        </view>
+      </navigator>
+    </view>
+  </view>
+</view>

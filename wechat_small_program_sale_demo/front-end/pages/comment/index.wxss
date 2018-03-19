@@ -1,0 +1,23 @@
+/* pages/comment/index.wxss */
+.container{
+    padding: 0px;
+    margin: 0px;
+}
+input{
+    border-bottom: solid 1px #ccc;
+    margin-top: 15%;
+    font-size: 1.4rem;
+}
+button{
+    margin-top: 10%;
+    width: 50%;
+}
+.name{
+    padding-bottom:5%;
+    font-size: 1.4rem;
+}
+.com{
+    margin-top: 5%;
+    border: solid 1px #ccc;
+    padding: 5%;
+}

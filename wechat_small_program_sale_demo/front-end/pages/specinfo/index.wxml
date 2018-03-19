@@ -1,0 +1,49 @@
+<!--pages/specinfo/index.wxml-->
+<view class="container">
+    <view class="lb">
+        <swiper indicator-dots="true"
+    autoplay="true" interval="5000" duration="1000" class="lbt">
+            <block wx:for="{{imgUrls}}">
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image"/>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
+    <view class="name"><text class="wpname">物品名称:</text>
+        <text class="nametext">{{info.name}}</text>
+    </view>
+    <view class="sub">
+        <view class="subr">
+            <text class="">物品描述:</text>
+            <text class="subtext">{{info.des}}</text>
+        </view>
+    </view>
+    <view class="sel"><text class="wpname">请选择: </text>
+        <text class="clsel" bindtap="showsel">{{xz}}</text>
+        <view class="price">价格：¥{{money}}</view>
+    </view>
+    <view class="selx" style="display:{{show}}">
+        <button bindtap="sure" data-value="{{value}}">确认</button>
+        <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}" bindchange="bindChange">
+            <picker-view-column>
+                <view wx:for="{{y}}" style="line-height: 50px">{{item}}</view>
+            </picker-view-column>
+        </picker-view>
+    </view>
+    <view class="discuss"><text>用户评论</text></view>
+    <view class="alldis" wx:for="{{comment}}" wx:key="comment">
+        <view class="disitem">
+            <view class="">
+                <text class="username">{{item[0]}}</text>
+                <text class="time">{{item[1]}}</text>
+            </view>
+            <view class="discontain">{{item[2]}}</view>
+        </view>
+    </view>
+    <view class="foot"></view>
+    <view class="buy">
+        <view class="btnl" bindtap="addBuyCar">加入购物车</view>
+        <view class="btnr" bindtap="buy">购买</view>
+    </view>
+</view>

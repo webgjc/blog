@@ -1,0 +1,6 @@
+<!--pages/changeinfo/index.wxml-->
+<view class="container">
+    <input class="in" placeholder="修改地址" focus="true" bindinput="bindAddressInput"/>
+    <input class="in" placeholder="修改电话" bindinput="bindPhoneInput"/>
+    <button class="btn" bindtap="submit">提交</button>
+</view>

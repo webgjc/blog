@@ -1,0 +1,9 @@
+/* pages/changeinfo/index.wxss */
+.in{
+    border-bottom: solid 1px #ccc;
+    margin-top: 100rpx;
+}
+.btn{
+    margin-top: 100rpx;
+    width: 50%;
+}

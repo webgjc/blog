@@ -1,0 +1,8 @@
+<!--pages/comment/index.wxml-->
+<view class="container">
+    <view class="com" wx:for="{{items}}">
+        <view class="name">{{item.name}}</view>
+        <input placeholder="请输入评论" bindinput="changeVal" data-id="{{item.id}}"/>
+    </view>
+    <button bindtap="submit">提交</button>
+</view>

@@ -1,0 +1,155 @@
+/**index.wxss**/
+
+.container{
+  margin:0rpx;
+  padding:0rpx;
+  background-color: #EAEBEC;
+}
+navigator{
+  display: inline;
+}
+.lb{
+  height:400rpx;
+  width:100%;
+  box-shadow: 3px 3px 3px #e0e0e0;
+}
+swiper{
+  height:100%;
+  width:100%;
+}
+.slide-image{
+  width:100%;
+  height:100%;
+}
+.tubiao{
+  position:relative;
+  top:0rpx;
+  border-bottom:solid 1px #e0e0e0;
+  padding-top: 20rpx;
+  padding-left: 50rpx;
+  width:100%;
+  background-color: #fff;
+}
+.tb1{
+  margin-left:30rpx;
+}
+.tb2{
+  margin-left:80rpx;
+}
+.tb3,.tb4{
+  margin-left:60rpx;
+}
+.tubiao navigator{
+  display: inline-block;
+}
+.tubiao image{
+  width:50rpx;
+  height:50rpx;
+  margin-left:15rpx;
+}
+.tb2 image{
+  margin-left:25rpx;
+}
+.tb3 image{
+  margin-left:50rpx;
+}
+.tb4 image{
+  margin-left:50rpx;
+}
+.tm{
+  height:250rpx;
+  width:250rpx;
+}
+.recom{
+  border: solid 1px #e0e0e0;
+  margin-top:20rpx;
+  background-color: #fff;
+  padding-bottom: 3%;
+  width:100%;
+}
+.tjbox{
+  display: inline-block;
+  margin-left:50rpx;
+  border-right:solid 1px #ccc;
+  margin-top:30rpx;
+  padding:0rpx 10rpx;
+  width:35%;
+}
+.tjtext{
+  font-size: 1.4rem;
+  margin-left:10rpx;
+}
+.tjprice{
+  margin-left: 10%;
+}
+.tj1,.tj2{
+  height:150rpx;
+  width:150rpx;
+  margin-left: 100rpx;
+  margin-top: -75rpx;
+}
+.tjbox1{
+  float: right;
+  margin-right: 70rpx;
+  margin-top: 30rpx;
+  width:40%;
+  border-bottom: solid 1px #e0e0e0;
+  padding-bottom: 2%;
+}
+.tjbox2{
+  float: right;
+  margin-right: 70rpx;
+  margin-top: -24%;
+  width: 40%;
+}
+.yhprice{
+  margin-left: 60rpx;
+  margin-top: -10rpx;
+}
+.all-text{
+  background-color: #fff;
+  margin-top: 20rpx;
+  width: 100%;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+}
+.txt{
+  margin-left: 30rpx;
+  margin-top: 30rpx;
+}
+.all{
+  width:100%;
+  background-color: #fff;
+  padding-bottom: 30rpx;
+}
+.main{
+  width: 50%;
+  margin-top: -20rpx;
+  display:inline-block;
+  margin-left: 2%;
+}
+.main1{
+  width: 50%;
+  margin-top: -20rpx;
+  display:inline-block;
+  position: absolute;
+  margin-left: -3%;
+}
+.main-item{
+  margin-top: 10%;
+  padding-bottom: 2%;
+  margin-left: 10%;
+  width:80%;
+  background-color: #fff;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
+}
+.main-img{
+  margin-top: 30rpx;
+  margin-left: 10%;
+  width: 80%;
+  height: 300rpx;
+}
+.name,.price{
+  margin-left: 10%;
+  margin-bottom: 3%;
+}

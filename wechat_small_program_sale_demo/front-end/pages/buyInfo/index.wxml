@@ -1,0 +1,24 @@
+<!--pages/buyInfo/index.wxml-->
+<view class="container">
+    <view class="uinfo">
+        <view class="address">
+            <image src="https://ganjiacheng.cn/images/loc.png"/>
+            <view>地址</view>
+            <text>{{address}}</text>
+        </view>
+        <view class="phone">
+            <image src="https://ganjiacheng.cn/images/tel.png"/>
+            <view>电话</view>
+            <text>{{phone}}</text>
+        </view>
+        <view class="nr">
+            <view>订单内容</view>
+            <view class="con">{{contain}}</view>
+        </view>
+        <view class="price">
+            <view>总价格</view>
+            <view class="pr">¥{{price}}</view>
+        </view>
+        <button bindtap="pay">付款</button>
+    </view>
+</view>

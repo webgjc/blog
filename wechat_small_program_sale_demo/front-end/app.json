@@ -1,0 +1,19 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/myinfo/index",
+    "pages/buycar/index",
+    "pages/myorder/index",
+    "pages/changeinfo/index",
+    "pages/specinfo/index",
+    "pages/buyInfo/index",
+    "pages/comment/index"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "果小媱",
+    "navigationBarTextStyle":"black"
+  }
+}

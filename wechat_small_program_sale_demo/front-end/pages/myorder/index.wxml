@@ -1,0 +1,8 @@
+<view class="container">
+    <view class="item" style='background:{{color[item["state"]]}};' wx:for="{{orderInfo}}" wx:key="order" bindtap="link" data-state="{{item['state']}}" data-sid="{{item['sid']}}" data-oid="{{item['id']}}">
+        <view class="time">下单时间：{{item['time']}}</view>
+        <view class="place">派送地点：{{item['place']}}</view>
+        <view class="contain">订单内容：{{item['contain']}}</view>
+        <view class="state">状态：<text>{{s[item['state']]}}</text></view>
+    </view>
+</view>

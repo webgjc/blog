@@ -1,0 +1,38 @@
+/* pages/myinfo/index.wxss */
+.container{
+  margin:0rpx;
+  padding:0rpx;
+}
+.info-tx{
+    margin-top: 20%;
+}
+.tx{
+    height: 200rpx;
+    width: 200rpx;
+    border-radius: 200px;
+}
+.info-username,.info-dz,.info-dh{
+    width: 68%;
+    border-bottom: solid 1px #e0e0e0;
+    position: relative;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+.left,.right{
+    display: inline;
+    max-width: 60%;
+}
+.left{
+    position:absolute;
+    bottom: 0px;
+}
+.right{
+    float: right;
+}
+.change{
+    position: absolute;
+    right: 20rpx;
+    border:solid 1px #e0e0e0;
+    border-radius: 5px;
+    padding: 5px;
+}

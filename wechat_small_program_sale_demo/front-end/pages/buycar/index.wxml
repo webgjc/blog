@@ -1,0 +1,31 @@
+<!--pages/buycar/index.wxml-->
+<view class="container">
+    <!--<view class="header">
+        <view class="clear">清空</view>
+        <view class="change">修改</view>
+    </view>-->
+    <view class="main">
+    <checkbox-group bindchange="checkboxChange" style="display:{{display}}">
+        <view class="item"  wx:for="{{items}}" wx:key="buycar">
+            <image src="{{item.imgurl}}" class="img"/>
+            <text class="name">{{item.name}} {{item.type}}</text>
+            <view class="num" bindtap="show" data-id="{{item.id}}">单价：¥{{item.price}} 数量:{{item.num}}</view>
+        <label class="checkbox">
+            <checkbox value="{{item.id}}" checked="{{item.checked}}" class="chbox"/>
+        </label>
+        </view>
+    </checkbox-group>
+        <view style="display:{{state}}" class="sel">
+            <button bindtap="sure" data-value="{{svalue}}" data-id="{{tmpid}}">确定</button>
+            <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}" bindchange="bindChange">
+            <picker-view-column>
+            <view wx:for="{{nums}}" style="line-height: 50px" wx:key="num">{{item}}</view>
+            </picker-view-column>
+            </picker-view>
+        </view>
+        <view class="allprice">
+            <view class="zj">总价：¥{{allprice}}</view>
+            <button class="btn" bindtap="buy">购买</button>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,47 @@
+/* pages/buyInfo/index.wxss */
+.container{
+    margin: 0px;
+    padding: 0px;
+}
+.uinfo{
+    width: 100%;
+}
+.phone{
+    border-top: solid 1px #ccc;
+    border-bottom:solid 1px #ccc;
+    padding-bottom: 5%;
+    margin-bottom: 5%;
+}
+image{
+    width:80rpx;
+    height:80rpx;
+    float: left;
+}
+.address{
+    width: 95%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.address,.phone{
+    margin-top: 5%;
+    padding-top: 5%;
+}
+.con{
+    margin: 5%;
+}
+.nr{
+    border-bottom: solid 1px #ccc;
+}
+.price{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.price view{
+    display: inline-block;
+}
+.pr{
+    font-size: 1.4rem;
+    float: right;
+    margin-right: 8%;
+}
