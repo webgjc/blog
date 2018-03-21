@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        .loading,.loadingjs{
+            font-size: 50px;
+        }
+        .loading span{
+            position: absolute;
+        }
+        .loading span{
+            left:-10%;
+            width:100px;
+            animation:mymove 5s infinite;
+            animation-timing-function: cubic-bezier(0.38, 0.99, 0.45, 0.13);
+        }
+        .loading span:nth-child(2){
+            animation-delay:0.3s;
+        }
+        .loading span:nth-child(3){
+            animation-delay:0.6s;
+        }
+        .loading span:nth-child(4){
+            animation-delay:0.9s;
+        }
+        .loading span:nth-child(5){
+            animation-delay:1.2s;
+        }
+        @keyframes mymove{
+            from {left:-10%;}
+            to {left: 90%;}
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+    </div>
+    </script>
+</body>
+</html>
