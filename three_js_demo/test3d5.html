@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test3d3</title>
+    <style type="text/css">
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+        #stats{
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="stats"></div>
+    <div id="webgl"></div>
+    <script type="text/javascript" src="js/three.js"></script>
+    <script type="text/javascript" src="js/stats.js"></script>
+    <script type="text/javascript" src="js/FirstPersonControls.js"></script>
+    <script type="text/javascript">
+        function init(){
+            var clock = new THREE.Clock();
+            var stats=initStats();
+
+            var scene=new THREE.Scene();
+
+            var camera=new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,0.1,1000);
+            camera.position.set(0,0,0);
+            camera.lookAt(scene.position);
+            
+            var renderer=new THREE.WebGLRenderer();
+            renderer.setClearColor(0x000000);
+            renderer.setSize(window.innerWidth,window.innerHeight);
+            renderer.shadowMapEnable=true;
+
+            var camControls = new THREE.FirstPersonControls(camera);
+            camControls.lookSpeed = 0.4;
+            camControls.movementSpeed = 20;
+            camControls.noFly = true;
+            camControls.lookVertical = true;
+            camControls.constrainVertical = true;
+            camControls.verticalMin = 1.0;
+            camControls.verticalMax = 2.0;
+            camControls.lon = -180;
+            camControls.lat = 180;
+
+            function createSprites(){
+                pic="image/Sam"+Math.floor(Math.random()*10)+".jpg";
+                var texture=THREE.ImageUtils.loadTexture(pic);
+                var geom=new THREE.Geometry();
+                var material=new THREE.PointCloudMaterial({
+                    size:4,
+                    transparent:true,
+                    map: texture,
+                    blending: THREE.AdditiveBlending,
+                    color:0x5fe0ff,
+                });
+                var range=500;
+                for(var i=0;i<500;i++){
+                    var particle=new THREE.Vector3(Math.random() * range - range / 2, Math.random() * range + range / 5, Math.random() * range - range / 2);
+                    geom.vertices.push(particle);
+                    var color=new THREE.Color(0x00ff00);
+                    color.setHSL(color.getHSL().h,color.getHSL().s,Math.random()*color.getHSL().l);
+                    geom.colors.push(color);
+                }
+                cloud=new THREE.PointCloud(geom,material);
+                cloud.sortParticles=true;
+                scene.add(cloud);
+            }
+
+            function fulldown(){
+                scene.children.pop();
+            }
+
+            createSprites();
+            console.log(scene.children)
+            
+            document.getElementById("webgl").appendChild(renderer.domElement);
+            renderer.render(scene,camera);
+            
+            var step=0;
+            var v=0;
+            function rendererScene(){
+                stats.update();
+                var delta = clock.getDelta();
+                camControls.update(delta);
+                step+=2;
+                if(step%100==0){
+                    createSprites();
+                }
+                for(var i=0;i<scene.children.length;i++){
+                    scene.children[i].position.y-=2;
+                }
+                requestAnimationFrame(rendererScene);
+                renderer.render(scene,camera);
+            }
+
+            function initStats(){
+                var stats=new Stats();
+                stats.setMode(0);
+                document.getElementById("stats").appendChild(stats.domElement);
+                return stats;
+            }
+
+            rendererScene();
+        }
+        window.onload=init;
+    </script>
+</body>
+</html>
