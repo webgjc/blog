@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>web worker</title>
+</head>
+<body>
+    <button id="btn">click me</button>
+    <script type="text/javascript">
+        btn.onclick=function(){
+            alert('you clicked');
+        }
+        function fb(n){
+            if(n==1||n==2){
+                return 1;
+            }else{
+                return fb(n-1)+fb(n-2);
+            }
+        }
+        alert(fb(45))
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>web worker</title>
+</head>
+<body>
+    <button id="btn">click me</button>
+    <script type="text/javascript">
+        var worker=new Worker("worker.js");
+        worker.postMessage(45);
+        worker.onmessage=function(e){
+            alert(e.data)
+        }
+        var btn=document.getElementById("btn");
+        btn.onclick=function(){
+            alert('you clicked');
+        }
+        /*
+        function fb(n){
+            if(n==1||n==2){
+                return 1;
+            }else{
+                return fb(n-1)+fb(n-2);
+            }
+        }
+        console.log(fb(45))
+        */
+    </script>
+</body>
+</html>
