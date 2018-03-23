@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <title>登录</title>
+    <style type="text/css">
+        html,body{
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            background-color: #f7fafc;
+        }
+        .box{
+            width: 50%;
+            margin-left: 25%;
+            padding-top:5%;
+            text-align: center;
+        }
+        .box h3{
+            margin-bottom: 15%;
+        }
+        .input-field{
+            margin-top: 5%;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn{
+            margin-top: 5%;
+            width: 50%;
+        }
+        input{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h3>Manage</h3>
+        <div class="input-field">
+            <input id="username" type="text" class="validate">
+            <label for="username">用户名</label>
+        </div>
+        <div class="input-field">
+            <input id="password" type="password" class="validate">
+            <label for="password">密码</label>
+        </div>
+        <a class="waves-effect waves-light btn" id="submit">提交</a>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <script type="text/javascript" src="http://test.ganjiacheng.cn/xy/static/js/sha256.js"></script>
+    <script type="text/javascript">
+       $("#submit").click(function(){
+            $.post('./login/loginYz', {username: $("#username").val(),password:sha256_digest($("#password").val())}, function(data) {
+                /*if(data!='1'){
+                    alert('用户名或密码错误');
+                }else{
+                    window.location.href='./manage';
+                }*/
+                data=JSON.parse(data)
+                if(data.state!="1000"){
+                    alert(data.result)
+                }else{
+                    window.location.href=data.linkTo
+                }
+                console.log(data)
+            });
+       });
+    </script>
+</body>
+</html>

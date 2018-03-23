@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=no" />
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<title>合作伙伴</title>
+</head>
+<body>
+	<div class="container">
+		<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">蜂巢</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">合作伙伴管理 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">问卷管理</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{data.username}} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+ 				<li><a href="#"><span class="glyphicon glyphicon-user" aria- hidden="true"> 个人资料</span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"> 系统设置</span></a></li>
+                <li><a href="/loginout"><span class="glyphicon glyphicon-off" aria-hidden="true"> 退出登录 </span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+	<div>
+		<ul class="nav nav-tabs nav-justfied">
+			<li role="presentation" class="active page1"><a href="#" onclick="page(1)" >合作伙伴列表</a></li>
+			<li role="presentation" class="page2"><a href="#" onclick="page(2)" >添加合作伙伴</a></li>
+			<li role="presentation" class="page3"><a href="#" onclick="page(3)" style="display:none;" id="_show" >查看合作伙伴信息</a></li>
+		</ul>
+	</div>
+	<div id="table1" style="display:block;">
+		<table class="table" id="_tr">
+			<tr>
+				<th>#</th>
+				<th>名称</th>
+				<th>email</th>
+				<th>联系电话</th>
+				<th>备注</th>
+				<th>操作</th>
+			</tr>
+			{% for item in data.info %}
+			<tr>
+				<th scope="row">{{loop.index}}</th>
+				<td>{{item.name}}</td>
+				<td>{{item.email}}</td>
+				<td>{{item.phone}}</td>
+				<td>{{item.more}}</td>
+				<td id="caozuo"><a href="#" onclick="page(3);getRow(this);"><span class="fa fa-pencil fa-lg" aria-hidden="true"></span></a><a href="#" onclick="deleteRow(this)"><span class="fa fa-trash fa-lg" aria-hidden="true"></span></a></td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div id="table2" style="display:none;">
+		<form id="addform">
+			<div class="form-group">
+				<label>名称</label>
+				<input type="text" class="form-control" id="_name" name="name">
+			</div>
+			<div class="form-group">
+				<label>Email</label>
+				<input type="text" class="form-control" id="email" name="email">
+			</div>
+			<div class="form-group">
+				<label>联系电话</label>
+				<input type="text" class="form-control" id="tel" name="tel">
+			</div>
+			<div class="form-group">
+				<label>备注</label>
+				<textarea class="form-control" rows="3" id="textarea" name="more"></textarea>
+			</div>
+			<button type="button" class="btn btn-primary" onclick="addVal()">确定</button>
+			<input type="reset" class="btn btn-danger" value="重置">
+		</form> 
+	</div>
+	<div id="table3" style="display:none;">
+		<form id="chForm">
+			<input type="text" style="display:none" id="org_name" name="org_name">
+			<div class="form-group">
+				<label>名称</label>
+				<input type="text" class="form-control" value="gjc" id="ch_name" name="ch_name">
+			</div>
+			<div class="form-group">
+				<label>Email</label>
+				<input type="text" class="form-control" value="123@qq.com" id="ch_email" name="ch_email">
+			</div>
+			<div class="form-group">
+				<label>联系电话</label>
+				<input type="text" class="form-control" value="1234567890" id="ch_phone" name="ch_phone">
+			</div>
+			<div class="form-group">
+				<label>备注</label>
+				<textarea class="form-control" rows="3" id="ch_textarea" name="ch_more">..</textarea>
+			</div>
+			<button type="button" class="btn btn-primary" id="queding" onclick="changeVal(this)">确定</button>
+			<input type="reset" class="btn btn-danger" value="重置">
+		</form> 
+	</div>
+	</div>
+	<script type="text/javascript">
+		var RowNum;
+		function page(n){
+			for(i=1;i<=3;i++){
+				document.getElementById("table"+i).style.display="none";
+				$(".page"+i).removeClass('active');
+			}
+			if(n==3){
+				$("#_show").css('display', 'block');
+			}
+			$(".page"+n).addClass('active');
+			document.getElementById("table"+n).style.display="block";
+		}
+		function deleteRow(t){
+			var i=t.parentNode.parentNode.rowIndex;
+			$.ajax({
+				url: '/main/dele',
+				type: 'POST',
+				dataType: 'json',
+				data: {"name": document.getElementById("_tr").rows[i].children[1].innerHTML},
+			})
+			.done(function(data) {
+				console.log(data);
+			});
+			document.getElementById("_tr").deleteRow(i);
+		}
+		function addVal(){
+			var x=document.getElementById("_tr").insertRow(1);
+			var e=x.insertCell(0);
+			var a=x.insertCell(1);
+			var b=x.insertCell(2);
+			var c=x.insertCell(3);
+			var d=x.insertCell(4);
+			var g=x.insertCell(5);
+			e.innerHTML="1";
+			a.innerHTML=document.getElementById("_name").value;
+			b.innerHTML=document.getElementById("email").value;
+			c.innerHTML=document.getElementById("tel").value;
+			d.innerHTML=document.getElementById("textarea").value;
+			g.innerHTML="<a href='#' onclick='page(3);getRow(this);' id='a'><span class='fa fa-pencil fa-lg' aria-hidden='true'></span></a><a href='#' onclick='deleteRow(this)'><span class='fa fa-trash fa-lg' aria-hidden='true'></span></a>";
+			for(var i=1;i<$("tr").length;i++){
+				var y=document.getElementById("_tr");
+				var f=y.rows[i].cells[0];
+				f.innerHTML=i;
+			}
+			console.log($("#addform").serialize())
+			$.ajax({
+				url: '/main/add',
+				type: 'POST',
+				data: $("#addform").serialize(),
+				processData: false,
+			})
+			.done(function(data) {
+				data=JSON.parse(data)
+				if(data.state!="1000"){
+					alert(data.result)
+				}
+			})
+			
+		}
+		function changeVal(t){
+			var x=document.getElementById("_tr").rows[RowNum];
+			for(var i=0;i<3;i++){
+				x.cells[i+1].innerHTML=$("#chForm input")[i].value;
+			}
+			x.cells[4].innerHTML=$("#ch_textarea").val();
+			console.log($("#chForm").serialize())
+			$.ajax({
+				url: '/main/edit',
+				type: 'POST',
+				data: $("#chForm").serialize(),
+				processData: false,
+			})
+			.done(function(data) {
+				data=JSON.parse(data)
+				if(data.state!="1000"){
+					alert(data.result)
+				}else{
+					console.log(data)
+					window.location.reload();
+				}
+			});
+			//page(1);
+		}
+		function getRow(t){
+			RowNum=t.parentNode.parentNode.rowIndex;
+			var x=document.getElementById("_tr").rows[RowNum];
+			$("#chForm input")[0].value=x.cells[1].innerHTML;
+			for(var i=1;i<4;i++){
+				$("#chForm input")[i].value=x.cells[i].innerHTML;
+			}
+			$("#ch_textarea").val(x.cells[4].innerHTML);
+		}
+	</script>
+</body>
+</html>
