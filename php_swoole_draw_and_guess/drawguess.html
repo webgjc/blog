@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,minimum-scale=1.0" name="viewport" >
+    <title>draw and guess</title>
+    <style type="text/css">
+        html,body{
+            padding: 0px;
+            margin: 0px;
+            -webkit-tap-highlight-color:rgba(0,0,0,0);
+        }
+        canvas{
+            border: solid 1px black;
+        }
+        input{
+            border: none;
+            border-bottom: solid 1px black;
+            line-height: 20px;
+            font-size: 20px;
+            height: 25px;
+            outline:none;
+            border-radius: 0px;
+            width: 70%;
+        }
+        button{
+            height: 30px;
+            width: 20%;
+            background-color: rgba(255,255,255,0.5);
+            border: solid 1px black;
+            border-radius: 10px;
+            outline: none;
+        }
+        .sel li{
+            list-style: none;
+            display: inline-block;
+            width: 23%;
+        }
+        .color{
+            position: absolute;
+            width: 100%;
+            margin-top: -140px;
+        }
+        .red{
+            width: 100%;
+            position: relative;
+            top: 0px;
+        }
+        .green{
+            width: 100%;
+            position: relative;
+            top:30px;
+        }
+        .blue{
+            width: 100%;
+            position: relative;
+            top: 60px;
+        }
+        .ky{
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            background-color: black;
+            position: absolute;
+        }
+        .jd{
+            position: absolute;
+            margin-top: 4px;
+            border: solid 1px black;
+            width: 80%;
+            height: 10px;
+            border-radius: 10px;
+        }
+        .colorz{
+            position: absolute;
+            right: 10%;
+        }
+        .showcol{
+            width: 50px;
+            height: 20px;
+            margin: 5px;
+            border:solid 1px black;
+            background-color: #000;
+        }
+        .bs li{
+            list-style: none;
+            width: 50px;
+            height: 20px;
+        }
+        .bsdiv{
+            position: absolute;
+            margin-top: -140px;
+            margin-left: 25%;
+        }
+        .ans{
+            position: absolute;
+            top: 0px;
+            right: 5px;
+        }
+        .error{
+            position: absolute;
+            top: 0;
+            left: 5px;
+        }
+        .showinfo{
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="ans" id="answer"></div>
+    <div class="error" id="error"></div>
+    <div class="showinfo" id="showinfo">123</div>
+    <canvas id="can" width="600" height="600">not support</canvas>
+    <div class="color" id="col" style="display:none;">
+        <div class="showcol" id="showcolor"></div>
+        <div class="red">
+            <div class="jd"></div>
+            <div class="ky" id="redmove"></div>
+            <div class="colorz">r</div>
+        </div>
+        <div class="green">
+            <div class="jd"></div>
+            <div class="ky" id="greenmove"></div>
+            <div class="colorz">g</div>
+        </div>
+        <div class="blue">
+            <div class="jd"></div>
+            <div class="ky" id="bluemove"></div>
+            <div class="colorz">b</div>
+        </div>
+    </div>
+    <div class="sel">
+        <ul>
+            <li id="colorblock">颜色</li>
+            <li id="bsblock" style="margin-left:-10px;">
+                <select name="" id="selbs">
+                    <option value="" disabled selected="selected">画笔</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </li>
+            <li style="margin-right:10px;">
+                <select name="" id="xpsel">
+                    <option value="" disabled selected="selected">橡皮</option>
+                    <option value="0">取消</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </li>
+            <li id="clear">清空</li>
+        </ul>
+    </div>
+    <input type="text" id="ans">
+    <button class="btn" id="sub">提交</button>
+    <script type="text/javascript">
+        showinfo("您已进入游戏，请等待");
+        var wsServer = 'ws://123.206.217.190:9501';
+        var ws = new WebSocket(wsServer);
+        var can=document.getElementById("can");
+        var color=document.getElementById("col");
+        var rm=document.getElementById("redmove");
+        var gm=document.getElementById("greenmove");
+        var bm=document.getElementById("bluemove");
+        var showcol=document.getElementById("showcolor");
+        var bsdiv=document.getElementById("bsdiv");
+        var sub=document.getElementById("sub");
+        var colorclicked=0;
+        var colorshow=[0,0,0];
+        var lineWidth=1;
+        var xpWidth=0;
+        var myturn=0;
+        var players=0;
+        var deadtime=60;
+        var timejishu;
+
+        var cvs=can.getContext("2d");
+        var whmin = window.innerWidth>window.innerHeight?window.innerHeight:window.innerWidth;
+        var w=can.width=whmin-2;
+        var h=can.height=whmin-2;
+
+        color.addEventListener('touchstart',stcolor,{passive:false});
+        color.addEventListener('touchmove',chcolor,{passtive:false});
+        rm.addEventListener('touchstart',colormove,{passive:false});
+        gm.addEventListener('touchstart',colormove,{passive:false});
+        bm.addEventListener('touchstart',colormove,{passive:false});
+
+        ws.onopen=function(e){
+            can.addEventListener('touchstart',sendstart,{passive:false});
+            can.addEventListener('touchmove',sendmove,{passive:false});
+            function sendstart(e){
+                e.preventDefault();
+                let data={"start":"0","coor":[e.touches[0].clientX,e.touches[0].clientY]};
+                if(myturn==1){
+                    ws.send(JSON.stringify(data));
+                }
+            }
+            function sendmove(e){
+                e.preventDefault();
+                let data={"start":"1","coor":[e.touches[0].clientX,e.touches[0].clientY]};
+                if(myturn==1){
+                    ws.send(JSON.stringify(data));
+                }
+            }
+        }
+
+        ws.onmessage=function(e){
+            var con=JSON.parse(e.data);
+            switch(con.start){
+                case "-2":
+                    console.log(con)
+                    players=prompt("请选择玩家人数");
+                    let data={"start":"-3","players":players};
+                    ws.send(JSON.stringify(data));
+                    break
+                case "-1":
+                    if(con.draw=="1"){
+                        console.log(timejishu)
+                        showinfo("该你画咯");
+                        document.getElementById("answer").innerHTML=con.ans;
+                        timejishu=setInterval(function(){
+                            deadtime--;
+                            if(deadtime<55){
+                                document.getElementById("showinfo").innerHTML=deadtime;
+                            }
+                            if(deadtime==0){
+                                let data={"start":"-4"};
+                                ws.send(JSON.stringify(data));
+                                deadtime=60;
+                                clearInterval(timejishu);
+                            }
+                        },1000);
+                        myturn=1;
+                    }else{
+                        showinfo("游戏开始");
+                        document.getElementById("answer").innerHTML="";
+                        if(timejishu!=undefined){
+                            clearInterval(timejishu);
+                        }
+                        myturn=0;
+                    }
+                    break
+                case "0":
+                    tstart(con.coor[0],con.coor[1]);
+                    break
+                case "1":
+                    move(con.coor[0],con.coor[1]);
+                    break
+                case "2":
+                    lineWidth=con.lineWidth;
+                    break;
+                case "3":
+                    xpWidth=con.xpWidth;
+                    break;
+                case "4":
+                    cvs.clearRect(0,0,w,h); 
+                    break;
+                case "5":
+                    colorshow=con.color;
+                    break;
+                case "6":
+                    if(con.win!=undefined){
+                        alert(con.win+" win!");
+                        deadtime=60;
+                    }else{
+                        document.getElementById("error").innerHTML="error:\n"+con.answer;
+                    }
+            }
+        }
+        
+        document.getElementById("colorblock").onclick=function(){
+            if(color.style.display=="none"){
+                color.style.display="block";
+                this.innerHTML="确认";
+            }else{
+                color.style.display="none";
+                let data={"start":"5","color":colorshow};
+                if(myturn==1){
+                    ws.send(JSON.stringify(data));
+                }
+                this.innerHTML="颜色";
+            }
+        }
+        document.getElementById("selbs").onchange=function(){
+            let data={"start":"2","lineWidth":this.value};
+            if(myturn==1){
+                ws.send(JSON.stringify(data));
+            }
+        }
+        document.getElementById("xpsel").onchange=function(){
+            let data={"start":"3","xpWidth":this.value};
+            if(myturn==1){
+                ws.send(JSON.stringify(data));
+            }
+        }
+        document.getElementById("clear").onclick=function(){
+            if(myturn==1){
+                ws.send(JSON.stringify({"start":"4"}));  
+            }
+        }
+        sub.onclick=function(){
+            var ans=document.getElementById("ans").value;
+            let data={"start":"6","answer":ans};
+            ws.send(JSON.stringify(data));
+        }
+
+        function showinfo(info){
+            document.getElementById("showinfo").innerHTML=info;
+        }
+
+        function tstart(x,y){
+            //e.preventDefault();
+            cvs.beginPath();
+            cvs.moveTo(x,y);
+        }
+        function move(x,y){
+            //e.preventDefault();
+            if(xpWidth!=0){
+                cvs.clearRect(x-xpWidth*2,y-xpWidth*2,xpWidth*4,xpWidth*4);
+            }else{
+                cvs.lineTo(x,y);
+                cvs.lineWidth=lineWidth*2;
+                cvs.lineCap='round';
+                cvs.lineJoin="round";
+                cvs.strokeStyle="rgb("+colorshow[0]+","+colorshow[1]+","+colorshow[2]+")";
+                cvs.stroke();
+            }
+        }
+        function stcolor(e){
+            e.preventDefault();
+        }
+        function chcolor(e){
+            e.preventDefault();
+            if(e.targetTouches[0].clientX<window.innerWidth*0.8){
+                this.children[colorclicked].children[1].style.left=e.targetTouches[0].clientX+"px";
+                colorshow[colorclicked-1]=parseInt(e.targetTouches[0].clientX/(window.innerWidth*0.8)*255)
+            }
+            showcol.style.backgroundColor="rgb("+colorshow[0]+","+colorshow[1]+","+colorshow[2]+")";
+        }
+        function colormove(e){
+            e.preventDefault();
+            if(this.id=="redmove"){
+                colorclicked=1;
+            }else if(this.id=="greenmove"){
+                colorclicked=2;
+            }else{
+                colorclicked=3;
+            }
+        }
+    </script>
+</body>
+</html>
