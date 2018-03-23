@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>五子棋</title>
+    <style type="text/css">
+        canvas{
+            border:solid 1px black;
+            background-color: #5b7d7d;
+            -webkit-tap-highlight-color:rgba(0,0,0,0)
+        }
+    </style>
+</head>
+<body>
+    <!--<input type="text" id="in">
+    <button id="send">submit</button>
+    <div id="recev"></div>-->
+    <canvas id="can" width="600" height="800">not support</canvas>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        var can = document.getElementById('can');
+        var x = window.innerWidth>window.innerHeight?window.innerHeight:window.innerWidth;
+        var w = can.width = x-20;
+        var h = can.height = x-20;
+        var con = can.getContext('2d');
+        var nowIn=1;
+        var alreadyIn=[];
+        var blackIn=[];
+        var whiteIn=[];
+        var local=Math.random();
+        function drawline(con,color,stepx,stepy){
+            con.strokeStyle=color;
+            con.lineWidth=1;
+            for(var i=stepx+0.5;i<can.width;i+=stepx){
+                con.beginPath();
+                con.moveTo(i,0);
+                con.lineTo(i,h);
+                con.stroke();
+            }
+            for(var i=stepy+0.5;i<can.height;i+=stepy){
+                con.beginPath();
+                con.moveTo(0,i);
+                con.lineTo(w,i);
+                con.stroke();
+            }
+        }
+        function drawqi(x,y,color){
+            con.beginPath();
+            con.fillStyle=color;
+            con.arc(x*w/15,y*w/15,w/38,0,2*Math.PI);
+            con.stroke();
+            con.fill();
+            con.closePath();
+        }
+        function equalArr(arr1,arr2){
+            if(arr1.toString()==arr2.toString()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        function judgeWin(chess){
+            for(var i=0;i<chess.length;i++){
+                sp=chess[i].split(",")
+                if(sp[0]>=2 && sp[1]>=2){
+                    if($.inArray((parseInt(sp[0])-1)+","+(parseInt(sp[1])-1),chess)!=-1&&
+                    $.inArray((parseInt(sp[0])-2)+","+(parseInt(sp[1])-2),chess)!=-1&&
+                    $.inArray((parseInt(sp[0])+1)+","+(parseInt(sp[1])+1),chess)!=-1&&
+                    $.inArray((parseInt(sp[0])+2)+","+(parseInt(sp[1])+2),chess)!=-1){
+                        return true;
+                    }
+                    if($.inArray((parseInt(sp[0])-1)+","+(parseInt(sp[1])),chess)!=-1&&
+                    $.inArray((parseInt(sp[0])-2)+","+(parseInt(sp[1])),chess)!=-1&&
+                    $.inArray((parseInt(sp[0])+1)+","+(parseInt(sp[1])),chess)!=-1&&
+                    $.inArray((parseInt(sp[0])+2)+","+(parseInt(sp[1])),chess)!=-1){
+                        return true;
+                    }
+                    if($.inArray((parseInt(sp[0]))+","+(parseInt(sp[1])-1),chess)!=-1&&
+                    $.inArray((parseInt(sp[0]))+","+(parseInt(sp[1])-2),chess)!=-1&&
+                    $.inArray((parseInt(sp[0]))+","+(parseInt(sp[1])+1),chess)!=-1&&
+                    $.inArray((parseInt(sp[0]))+","+(parseInt(sp[1])+2),chess)!=-1){
+                        return true;
+                    }
+                    if($.inArray((parseInt(sp[0])-1)+","+(parseInt(sp[1])+1),chess)!=-1&&
+                    $.inArray((parseInt(sp[0])-2)+","+(parseInt(sp[1])+2),chess)!=-1&&
+                    $.inArray((parseInt(sp[0])+1)+","+(parseInt(sp[1])-1),chess)!=-1&&
+                    $.inArray((parseInt(sp[0])+2)+","+(parseInt(sp[1])-2),chess)!=-1){
+                        return true;
+                    }
+                    
+                }
+            }
+            return false
+        }
+        drawline(con,'lightgray',w/15,h/15);
+        var socket=io();
+        can.onclick=function(e){
+            mx=Math.round(e.offsetX/w*15);
+            my=Math.round(e.offsetY/w*15);
+            if($.inArray((mx*15+my),alreadyIn)==-1){
+                socket.emit('msg',[mx,my,local])
+            }
+        }
+        socket.on('message',function(msg){
+            mx=msg.for[0]
+            my=msg.for[1]
+            
+            alreadyIn.push(mx*15+my);
+            if(nowIn==0){
+                draw=drawqi(mx,my,"#000");
+                blackIn.push([mx,my].toString())
+                if(judgeWin(blackIn)){
+                    alert("black win");
+                }
+            }else{
+                draw=drawqi(mx,my,"#fff");
+                whiteIn.push([mx,my].toString());
+                if(judgeWin(whiteIn)){
+                    setTimeout(alert("white win"),500);
+                }
+            }
+            nowIn=1-nowIn;
+        })
+    </script>
+</body>
+</html>
