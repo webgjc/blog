@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>弹琴吧曲谱下载</title>
+    <style type="text/css">
+        .btn{
+            width: 100%;
+        }
+        #res{
+            margin: 2%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="">
+            <div class="form-group">
+                <label for="link">弹琴吧曲谱免费下载（可vip）</label>
+                <input type="text" class="form-control" id="link" placeholder="输入弹琴吧曲谱网址，在http://www.tan8.com/piano.html">
+            </div>
+            <button class="btn btn-outline-dark" id="sub">提交</button>
+        </form>
+        <div id="res">
+
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#res").html(sessionStorage.music);
+            $("#sub").click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: '/hack',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {url: $("#link").val()},
+                })
+                .done(function(data) {
+                    if(data['sts']==1){
+                        //$("#id").attr('href', data['msg']['mp3']);
+                        str='<a href="'+data['msg']['mp3']+'">点击收听 '+data['msg']['title']+' 钢琴曲</a><br /><br /><a href="'+data['msg']['pdf']+'">点击下载 '+data['msg']['title']+' 的曲谱</a>';
+                        sessionStorage.music = str
+                        $("#res").html(str);
+                    }else if(data['sts']==-1){
+                        alert("地址错误")
+                    }else{
+                        alert("出错")
+                    }
+                })
+                .fail(function() {
+                    alert("失败")
+                });
+                
+            });
+        });
+            
+
+    </script>
+    
+</body>
+</html>
