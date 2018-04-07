@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>手持弹幕</title>
+    <style type="text/css">
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        html,body{
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        #txt{
+            overflow: visible;
+            white-space: nowrap;
+            transform-origin: 0% 0%;
+            transform: rotate(90deg);
+        }
+        #config{
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+        }
+        #config input{
+            display: block;
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        #config button{
+            width: 23.5%;
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+            color: #fff;
+            background-color: transparent;
+            background-image: none;
+            border-color: #343a40;
+        }
+    </style>
+</head>
+<body>
+    <div id="txt">点一下屏幕进入设置</div>
+    <div id="config" style="display:none;">
+        <input type="text" placeholder="输入文本,tip:上拉一下就可全屏" id="txtContent">
+        <input type="text" placeholder="输入颜色rgb，格式如:125 125 125" id="color">
+        <button id="turnLeft">左移</button>
+        <button id="turnRight">右移</button>
+        <button id="bigger">增大</button>
+        <button id="smaller">减小</button>
+        <button id="quicker">加快</button>
+        <button id="slower">减慢</button>
+        <button id="changeFont">字体</button>
+        <button id="stunt">特技</button>
+    </div>
+    <script type="text/javascript">
+        //获取到所需dom
+        var txt = document.getElementById("txt");
+        var config = document.getElementById("config");
+        var txtContent = document.getElementById("txtContent");
+        var color = document.getElementById("color");
+        var turnLeft = document.getElementById("turnLeft");
+        var turnRight = document.getElementById("turnRight");
+        var bigger = document.getElementById("bigger");
+        var smaller = document.getElementById("smaller");
+        var quicker = document.getElementById("quicker");
+        var slower = document.getElementById("slower");
+        var changeFont = document.getElementById("changeFont");
+        var stunt = document.getElementById("stunt");
+        var height = document.body.clientHeight;
+        var width = document.body.clientWidth;
+        var state = 0;
+        var v = 10;
+        var k = 0;
+        //初始化设置，下面改起来方便些
+        txt.style.marginTop = height+"px";
+        txt.style.fontSize = "380px";
+        txt.style.marginLeft = "450px";
+        txt.style.color = "rgba(255,255,255,1)"
+
+        config.onclick = function(){
+            state = 1;
+        }
+        //显隐设置栏，消除搜索框也是无意间发现。
+        //由于加了设置栏大于一屏然后可以上拉，上拉后搜索框会折叠。
+        //然后在点击消除设置栏，一些浏览器就会自动占满屏，有些浏览器好像下面会有一栏空。
+        document.body.onclick = function(e){
+            if(state != 1){
+                config.style.display = config.style.display == "none" ? "block" : "none";
+            }
+            state = 0;
+        }
+        //绑定设置输入框和按钮操作
+        txtContent.onchange = function(){
+            txt.innerHTML = this.value
+            txt.style.marginTop = height + "px";
+        }
+
+        color.onchange = function(){
+            colors = this.value.split(" ");
+            txt.style.color = "rgba("+colors[0]+","+colors[1]+","+colors[2]+",1)";
+            txt.style.marginTop = height + "px";
+        }
+
+        turnLeft.onclick = function(){
+            txt.style.marginLeft = parseInt(txt.style.marginLeft) - 10 + "px";
+        }
+
+        turnRight.onclick = function(){
+            txt.style.marginLeft = parseInt(txt.style.marginLeft) + 10 + "px";
+        }
+
+        bigger.onclick = function(){
+            txt.style.fontSize = parseInt(txt.style.fontSize) + 10 + "px";
+        }
+
+        smaller.onclick = function(){
+            console.log(txt.style.fontSize)
+            txt.style.fontSize = parseInt(txt.style.fontSize) - 10 + "px";
+            console.log(txt.style.fontSize)
+        }
+
+        quicker.onclick = function(){
+            v += 2
+        }
+
+        slower.onclick = function(){
+            v -= 2
+        }
+
+        changeFont.onclick = function(){
+            fonts = ["SimSun","SimHei","Microsoft YaHei","Microsoft JhengHei","NSimSun","PMingLiU","MingLiU","DFKai-SB","FangSong","KaiTi","FangSong_GB2312","KaiTi_GB2312","：STHeiti","STKaiti","STSong","STFangsong","LiSu","YouYuan","STXihei","STKaiti","STKaiti","STSong","STZhongsong","STZhongsong","STFangsong","FZYaoti","STZhongsong","STCaiyun","STHupo","STLiti","STXingkai","STXinwei"]
+            txt.style.fontFamily = fonts[k];
+            k+=1;
+        }
+
+        stunt.onclick = function(){
+            alert("要什么特技呢");
+            return
+        }
+        //设置字体移动
+        function move(){
+            txt.style.marginTop = parseInt(txt.style.marginTop) - v + "px";
+            if(parseInt(txt.style.marginTop) <= -parseInt(txt.style.fontSize)*txt.innerHTML.length) txt.style.marginTop = height + "px";
+            window.requestAnimationFrame(move);
+        }
+        window.requestAnimationFrame(move);
+    </script>
+</body>
+</html>
